@@ -1,0 +1,154 @@
+heat_template_version: 2013-05-23
+
+resources:
+  A:
+    type: OS::Neutron::Net
+    properties:
+      name: test_net
+
+  B:
+    type: OS::Neutron::Net
+    depends_on: A
+    properties:
+      name: test_net
+
+  C:
+    type: OS::Neutron::Net
+    depends_on: B
+    properties:
+      name: test_net
+
+  D:
+    type: OS::Neutron::Net
+    depends_on: C
+    properties:
+      name: test_net
+
+  E:
+    type: OS::Neutron::Net
+    depends_on: D
+    properties:
+      name: test_net
+
+  F:
+    type: OS::Neutron::Net
+    depends_on: E
+    properties:
+      name: test_net
+
+  G:
+    type: OS::Neutron::Net
+    depends_on: F
+    properties:
+      name: test_net
+
+  H:
+    type: OS::Neutron::Net
+    depends_on: G
+    properties:
+      name: test_net
+
+  I:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+
+  J:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+  K:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+  L:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+  M:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+  N:
+    type: OS::Neutron::Net
+    depends_on: H
+    properties:
+      name: test_net
+
+#resources:
+#
+#  A:
+#    type: OS::Neutron::Net
+#    properties:
+#      name: test_net
+#
+#  B:
+#    type: OS::Neutron::Net
+#    depends_on: A
+#    properties:
+#      name: test_net
+#
+#  C:
+#    type: OS::Neutron::Net
+#    depends_on: B
+#    properties:
+#      name: test_net
+#
+#  D:
+#    type: OS::Neutron::Net
+#    depends_on: C
+#    properties:
+#      name: test_net
+#
+#  E:
+#    type: OS::Neutron::Net
+#    depends_on: D
+#    properties:
+#      name: test_net
+#
+#  F:
+#    type: OS::Neutron::Net
+#    depends_on: E
+#    properties:
+#      name: test_net
+#
+#  G:
+#    type: OS::Neutron::Net
+#    depends_on: F
+#    properties:
+#      name: test_net
+#
+#  H:
+#    type: OS::Neutron::Net
+#    depends_on: G
+#    properties:
+#      name: test_net
+#
+#  I:
+#    type: OS::Neutron::Net
+#    depends_on: H
+#    properties:
+#      name: test_net
+#
+#  J:
+#    type: OS::Neutron::Net
+#    depends_on: I
+#    properties:
+#      name: test_net
+#
+#  K:
+#    type: OS::Neutron::Net
+#    depends_on: J
+#    properties:
+#      name: test_net
+#
+#  L:
+#    type: OS::Neutron::Net
+#    depends_on: K
+#    properties:
+#      name: test_net

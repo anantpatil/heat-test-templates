@@ -1,0 +1,7 @@
+heat_template_version: 2013-05-23
+
+resources:
+  A:
+    type: OS::Neutron::Net
+    properties:
+      name: test_net

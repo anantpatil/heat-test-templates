@@ -1,0 +1,29 @@
+{
+  "heat_template_version": "2013-05-23",
+  "description": "Random String template\n",
+  "parameters": {
+    "len": {
+      "type": "string",
+      "description": "Length of string.",
+      "default": 16
+    },
+    "salt": {
+      "type": "string",
+      "description": "Salt",
+      "default": "quickbrownfox"
+    }
+  },
+  "resources": {
+    "A": {
+      "type": "OS::Heat::RandomString",
+      "properties": {
+        "length": {
+          "get_param": "len"
+        },
+        "salt": {
+          "get_param": "salt"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "heat_template_version": "2013-05-23",
+  "description": "Simple template having 2 instances.\n",
+  "parameters": {
+    "key_name": {
+      "type": "string",
+      "description": "Name of a KeyPair to enable SSH access to the instance"
+    },
+    "instance_type": {
+      "type": "string",
+      "description": "Instance type for WordPress server",
+      "default": "m1.tiny",
+      "constraints": [
+        {
+          "allowed_values": [
+            "m1.tiny",
+            "m1.small",
+            "m1.medium",
+            "m1.large"
+          ],
+          "description": "instance_type must be one of m1.small, m1.medium or m1.large"
+        }
+      ]
+    },
+    "image_id": {
+      "type": "string",
+      "description": "Name or ID of the image to use for the WordPress server. Recommended values are fedora-20.i386 or fedora-20.x86_64; get them from http://cloud.fedoraproject.org/fedora-20.i386.qcow2 or http://cloud.fedoraproject.org/fedora-20.x86_64.qcow2 .\n",
+      "default": "fedora-20.x86_64"
+    }
+  },
+  "resources": {
+    "A": {
+      "type": "OS::Nova::Server",
+      "properties": {
+        "image": "cirros-0.3.2-x86_64-uec-kernel",
+        "flavor": "m1.small",
+        "key_name": {
+          "get_param": "key_name"
+        }
+      }
+    },
+    "B": {
+      "type": "OS::Nova::Server",
+      "properties": {
+        "image": {
+          "get_param": "image_id"
+        },
+        "flavor": {
+          "get_param": "instance_type"
+        },
+        "key_name": {
+          "get_param": "key_name"
+        }
+      }
+    },
+    "C": {
+      "type": "OS::Nova::Server",
+      "depends_on": "B",
+      "properties": {
+        "image": {
+          "get_param": "image_id"
+        },
+        "flavor": {
+          "get_param": "instance_type"
+        },
+        "key_name": {
+          "get_param": "key_name"
+        }
+      }
+    },
+    "D": {
+      "type": "OS::Nova::Server",
+      "depends_on": "B",
+      "properties": {
+        "image": "cirros-0.3.2-x86_64-uec-kernel",
+        "flavor": "m1.xlarge",
+        "key_name": {
+          "get_param": "key_name"
+        }
+      }
+    }
+  },
+  "outputs": {
+    "WebsiteURL": {
+      "description": "URL for Wordpress wiki",
+      "value": {
+        "str_replace": {
+          "template": "http://host/wordpress",
+          "params": {
+            "host": {
+              "get_attr": [
+                "A",
+                "first_address"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

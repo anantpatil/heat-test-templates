@@ -1,0 +1,11 @@
+heat_template_version: 2013-05-23
+
+
+resources:
+  nested:
+      type: AWS::CloudFormation::Stack
+      properties:
+        TemplateURL: https://raw.githubusercontent.com/openstack/heat-templates/master/hot/F18/WordPress_Native.yaml
+        key_name: 'heat_key'
+        image_id: 'cirros-0.3.2-x86_64-uec'
+

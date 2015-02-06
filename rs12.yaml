@@ -1,0 +1,9 @@
+heat_template_version: 2013-05-23
+description: Random String templates
+
+resources:
+    unix_passwd:
+        #type: OS::Neutron::Net
+        type: OS::Neutron::Net
+        properties:
+          name: 'test_net'
