@@ -1,0 +1,61 @@
+heat_template_version: 2013-05-23
+description: Random String templates
+
+parameters:
+    val:
+        type: string
+        default: 'nothing'
+    update_replace:
+        type: string
+        default: False
+    wait_secs:
+        type: string
+        default: 1
+
+resources:
+    A:
+        type: OS::Heat::TestResource
+        properties:
+            value: {get_param: val}
+            #value: 'nonsense'
+            #update_replace: {get_param: update_replace}
+            update_replace: True
+            wait_secs: {get_param: wait_secs}
+            fail: False
+    B:
+        type: OS::Heat::TestResource
+        properties:
+            #value: {get_param: val}
+            value: 'nonsense'
+            #update_replace: {get_param: update_replace}
+            update_replace: True
+            wait_secs: {get_param: wait_secs}
+            fail: False
+    C:
+        type: OS::Heat::TestResource
+        depends_on: [A, B]
+        properties:
+            #value: 'nonsenseC'
+            value: {get_param: val}
+            #update_replace: True
+            update_replace: {get_param: update_replace}
+            wait_secs: {get_param: wait_secs}
+            fail: False
+    D:
+        type: OS::Heat::TestResource
+        depends_on: C
+        properties:
+            #value: {get_param: val}
+            value: 'nonsense'
+            update_replace: {get_param: update_replace}
+            wait_secs: {get_param: wait_secs}
+            fail: False
+    E:
+        type: OS::Heat::TestResource
+        depends_on: C
+        properties:
+            #value: {get_param: val}
+            value: 'nonsense'
+            update_replace: {get_param: update_replace}
+            wait_secs: {get_param: wait_secs}
+            fail: False

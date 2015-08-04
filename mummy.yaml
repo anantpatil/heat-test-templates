@@ -5,7 +5,7 @@ description: >
 parameters:
     user_key:
         type: string
-        default: "The greate Rakesh"
+        default: "The great Rakesh"
         description : Name of a KeyPair to enable SSH access to the instance
 
 
