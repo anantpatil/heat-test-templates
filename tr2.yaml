@@ -1,0 +1,31 @@
+heat_template_version: 2013-05-23
+description: Test resource template
+
+parameters:
+    val:
+        type: string
+        default: 'nothing'
+    update_replace:
+        type: string
+        default: True
+    wait_secs:
+        type: string
+        default: 20
+
+resources:
+    tr1:
+        type: OS::Heat::TestResource
+        properties:
+            #value: {get_param: val}
+            value: 'nonsense'
+            update_replace: {get_param: update_replace}
+            wait_secs: {get_param: wait_secs}
+            fail: False
+    tr2:
+        type: OS::Heat::TestResource
+        properties:
+            #value: {get_param: val}
+            value: 'nonsense'
+            update_replace: {get_param: update_replace}
+            wait_secs: {get_param: wait_secs}
+            fail: False
