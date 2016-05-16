@@ -1,0 +1,55 @@
+heat_template_version: 2013-05-23
+
+description: >
+  This template will boot a Docker swarm cluster. A swarm cluster is made up
+  of several master nodes, and N agent nodes. Every node in the cluster,
+  including the master, is running a Docker daemon and a swarm agent
+  advertising it to the cluster. The master is running an addition swarm
+  master container listening on port 2376. By default, the cluster is made
+  up of one master node and one agent node.
+
+parameters:
+  external_network:
+    type: string
+    description: uuid/name of a network to use for floating ip addresses
+    default: public
+
+  loadbalancing_protocol:
+    type: string
+    description: >
+      The protocol which is used for load balancing. If you want to change
+      tls_disabled option to 'True', please change this to "HTTP".
+    default: TCP
+    constraints:
+      - allowed_values: ["TCP", "HTTP"]
+
+  swarm_port:
+    type: number
+    description: >
+      The port which are used by swarm manager to provide swarm service.
+    default: 2376
+
+resources:
+  api_monitor:
+    type: OS::Neutron::HealthMonitor
+    properties:
+      type: TCP
+      delay: 5
+      max_retries: 5
+      timeout: 5
+
+  api_pool:
+    type: OS::Neutron::Pool
+    properties:
+      protocol: {get_param: loadbalancing_protocol}
+      monitors: [{get_resource: api_monitor}]
+      subnet: private-subnet
+      lb_method: ROUND_ROBIN
+      vip:
+        protocol_port: {get_param: swarm_port}
+
+  api_pool_floating:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: {get_param: external_network}
+      port_id: {get_attr: [api_pool, vip, port_id]}
