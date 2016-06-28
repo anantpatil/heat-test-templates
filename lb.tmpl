@@ -1,38 +1,39 @@
-heat_template_version: 2016-04-08
-description: Create a pool member
+heat_template_version: 2015-10-15
+description: Create loadbalancer
 resources:
   lb:
-    type: OS::Neutron::LBaaS::LoadBalancer
-    properties:
-      name: my_lb12
-      vip_subnet: private-subnet
+      type: OS::Neutron::LBaaS::LoadBalancer
+      properties:
+        name: my_lb
+        description: my loadbalancer
+        vip_subnet: private-subnet 
+        admin_state_up: True
   listener:
-    type: OS::Neutron::LBaaS::Listener
-    properties:
-      name: my_listener1
-      protocol_port: 80
-      protocol: HTTP
-      loadbalancer: {get_resource: lb}
+      type: OS::Neutron::LBaaS::Listener
+      properties:
+          protocol_port: 80
+          protocol: HTTP
+          loadbalancer: {get_resource: lb}
+          name: my_listener
+          description: my listener
+          admin_state_up: True
+          connection_limit: -1
   pool:
-    type: OS::Neutron::LBaaS::Pool
-    properties:
-      name: my_pool1
-      lb_algorithm: ROUND_ROBIN
-      listener: {get_resource: listener}
-      protocol: HTTP
+      type: OS::Neutron::LBaaS::Pool
+      properties:
+            name: my_pool
+            description: my pool
+            session_persistence:
+                type: HTTP_COOKIE
+            lb_algorithm: ROUND_ROBIN
+            listener: {get_resource: listener}
+            protocol: HTTP
+            admin_state_up: True
   member1:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: {get_resource: pool}
-      address: 10.0.0.5
-      protocol_port: 80
-      weight: 1
-      subnet: private-subnet
-  member2:
-    type: OS::Neutron::LBaaS::PoolMember
-    properties:
-      pool: {get_resource: pool}
-      address: 10.0.0.6
+      address: 10.0.1.3
       protocol_port: 80
       weight: 1
       subnet: private-subnet
